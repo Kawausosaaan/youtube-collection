@@ -6,3 +6,4 @@
 |---|---|
 | #料理 #ビリヤニ #さば #スパイス #印度カリー子 | [【初心者歓迎】日本米で作る絶品さばビリヤニのレシピ 〜スパイス3つ・鯖缶でもOK〜](https://www.youtube.com/watch?v=b6XtCNS2Sq4) |
 | #ラーメン #王道家 #家系ラーメン #Shorts | [ラーショで 胡椒かけすぎ 自分がやられたら ブチギレる 癖にさ #王道家 #家系 #ラーメン](https://www.youtube.com/shorts/3RhTmY5rlp4) |
+| #タコス #メキシコ料理 #TAQUITO #川辺真美子 | [メキシコ政府認証店の絶品タコスに感動✨ 日本初のSello M（セジョ・エメ）認証店 🇲🇽本格的なメキシコ料理を紹介！フジ新人アナ川辺真美子](https://www.youtube.com/watch?v=ZAtL2T5Iflg) |
