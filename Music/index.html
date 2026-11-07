@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>音楽動画コレクション</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;max-width:1050px;margin:35px auto;padding:0 16px;color:#24292f}h1{border-bottom:1px solid #d0d7de;padding-bottom:12px}.filters{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.filters label{display:grid;gap:6px;flex:1;min-width:200px}select,input{font:inherit;padding:9px;border:1px solid #afb8c1;border-radius:6px;min-width:0}table{border-collapse:collapse;width:100%}th,td{border:1px solid #d0d7de;padding:12px;text-align:left;overflow-wrap:anywhere}th{background:#f6f8fa}tbody tr:nth-child(even){background:#f6f8fa}a{color:#0969da}#status{color:#57606a}button{padding:7px 12px;cursor:pointer} @media(max-width:500px){th:first-child,td:first-child{width:32%}}
+</style>
+</head>
+<body>
+<h1>🎵 音楽動画コレクション</h1>
+<div class="filters"><label>タグ<select id="tag"><option value="">すべて</option></select></label><label>キーワード検索<input id="query" type="search" placeholder="動画名・人物名"></label></div>
+<p><span id="status">読み込み中…</span> <button id="reset" type="button">クリア</button></p>
+<table><thead><tr><th>タグ</th><th>動画</th></tr></thead><tbody id="results"></tbody></table>
+<script>
+const tagEl=document.getElementById('tag'),queryEl=document.getElementById('query'),results=document.getElementById('results'),statusEl=document.getElementById('status');
+let videos=[];
+function render(){
+ const q=queryEl.value.trim().toLocaleLowerCase();
+ const shown=videos.filter(v=>(!tagEl.value||v.tags.includes(tagEl.value))&&(!q||[v.title,...v.tags].join(' ').toLocaleLowerCase().includes(q)));
+ results.replaceChildren();
+ for(const v of shown){
+  const tr=document.createElement('tr'),tags=document.createElement('td'),linkCell=document.createElement('td'),a=document.createElement('a');
+  tags.textContent=v.tags.map(t=>'#'+t).join(' ');
+  a.textContent=v.title;a.href=v.url;a.target='_blank';a.rel='noopener noreferrer';
+  linkCell.append(a);tr.append(tags,linkCell);results.append(tr);
+ }
+ statusEl.textContent=`${shown.length}件 / 全${videos.length}件`;
+}
+fetch('./videos.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+ if(!Array.isArray(data))throw Error('データ形式が不正です');
+ videos=data;
+ for(const t of [...new Set(videos.flatMap(v=>v.tags))].sort((a,b)=>a.localeCompare(b,'ja'))){const opt=document.createElement('option');opt.value=t;opt.textContent='#'+t;tagEl.append(opt)}
+ render();
+}).catch(e=>{statusEl.textContent='動画データを読み込めませんでした: '+e.message});
+tagEl.addEventListener('change',render);queryEl.addEventListener('input',render);
+document.getElementById('reset').addEventListener('click',()=>{tagEl.value='';queryEl.value='';render()});
+</script>
+</body>
+</html>
